@@ -15,8 +15,9 @@ pipeline {
         }
 
         stage('Approval') {
+            agent none   // ✅ VERY IMPORTANT
             steps {
-                input message: "Do you want to deploy this build?", ok: "Deploy"
+                input message: "Do you want to deploy?", ok: "Deploy"
             }
         }
 
