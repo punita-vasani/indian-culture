@@ -1,4 +1,3 @@
-
 pipeline {
     agent any
 
@@ -15,14 +14,20 @@ pipeline {
             }
         }
 
-       stage('Remove Old Container') {
-    steps {
-        sh '''
-        docker rm -f $CONTAINER_NAME || true
-        sleep 5
-        '''
-    }
-}
+        stage('Approval') {
+            steps {
+                input message: "Do you want to deploy this build?", ok: "Deploy"
+            }
+        }
+
+        stage('Remove Old Container') {
+            steps {
+                sh '''
+                docker rm -f $CONTAINER_NAME || true
+                sleep 5
+                '''
+            }
+        }
 
         stage('Run Container') {
             steps {
