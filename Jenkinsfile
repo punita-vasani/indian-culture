@@ -8,16 +8,16 @@ pipeline {
 
     stages {
 
-        stage('Build Docker Image') {
+        stage('Approval') {
+            agent none
             steps {
-                sh 'docker build --no-cache -t $IMAGE_NAME .'
+                input message: "Do you want to deploy?", ok: "Deploy"
             }
         }
 
-        stage('Approval') {
-            agent none   // ✅ VERY IMPORTANT
+        stage('Build Docker Image') {
             steps {
-                input message: "Do you want to deploy?", ok: "Deploy"
+                sh 'docker build --no-cache -t $IMAGE_NAME .'
             }
         }
 
